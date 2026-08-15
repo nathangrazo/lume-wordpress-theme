@@ -1,0 +1,197 @@
+/* ==========================================================================
+   Header
+   ========================================================================== */
+
+.site-header {
+	position: fixed;
+	inset: 0 0 auto;
+	z-index: 50;
+	padding-block: 1.5rem;
+	transition: padding 0.4s var(--ease-out), background-color 0.4s;
+}
+
+.site-header__inner {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	gap: 2rem;
+}
+
+.site-brand__name {
+	font-family: var(--f-display);
+	font-size: 1.6rem;
+	font-weight: 400;
+	letter-spacing: -0.03em;
+}
+
+.site-brand__name span {
+	color: var(--c-accent);
+}
+
+.custom-logo {
+	width: auto;
+	max-height: 40px;
+}
+
+.site-nav__list {
+	display: flex;
+	gap: 2.25rem;
+	padding: 0;
+	list-style: none;
+	font-size: var(--fs-sm);
+}
+
+.site-nav__list a {
+	position: relative;
+	padding-block: 0.25rem;
+}
+
+/* ==========================================================================
+   Menu mobile (checkbox, sem JS)
+   ========================================================================== */
+
+.menu-toggle__input,
+.menu-toggle {
+	display: none;
+}
+
+@media (max-width: 760px) {
+	.menu-toggle {
+		position: relative;
+		z-index: 60;
+		display: grid;
+		place-items: center;
+		width: 44px;
+		height: 44px;
+		cursor: pointer;
+	}
+
+	.menu-toggle__bars,
+	.menu-toggle__bars::before,
+	.menu-toggle__bars::after {
+		display: block;
+		width: 22px;
+		height: 1.5px;
+		background: currentColor;
+		transition: transform 0.45s var(--ease-out), opacity 0.2s;
+	}
+
+	.menu-toggle__bars {
+		position: relative;
+	}
+
+	.menu-toggle__bars::before,
+	.menu-toggle__bars::after {
+		content: "";
+		position: absolute;
+		left: 0;
+	}
+
+	.menu-toggle__bars::before { top: -7px; }
+	.menu-toggle__bars::after { top: 7px; }
+
+	.menu-toggle__input:checked + .menu-toggle .menu-toggle__bars {
+		background: transparent;
+	}
+
+	.menu-toggle__input:checked + .menu-toggle .menu-toggle__bars::before {
+		transform: translateY(7px) rotate(45deg);
+	}
+
+	.menu-toggle__input:checked + .menu-toggle .menu-toggle__bars::after {
+		transform: translateY(-7px) rotate(-45deg);
+	}
+
+	.site-nav {
+		position: fixed;
+		inset: 0;
+		z-index: 55;
+		display: grid;
+		align-content: center;
+		padding: var(--space);
+		background: var(--c-night);
+		color: var(--c-paper);
+		clip-path: circle(0% at calc(100% - 3rem) 3rem);
+		transition: clip-path 0.7s var(--ease-in-out);
+	}
+
+	.menu-toggle__input:checked ~ .site-nav {
+		clip-path: circle(150% at calc(100% - 3rem) 3rem);
+	}
+
+	.menu-toggle__input:checked + .menu-toggle {
+		color: var(--c-paper);
+	}
+
+	.site-nav__list {
+		flex-direction: column;
+		gap: 0.5rem;
+		font-family: var(--f-display);
+		font-size: clamp(2.5rem, 12vw, 4rem);
+		line-height: 1.1;
+	}
+
+	.site-nav__list li {
+		opacity: 0;
+		transform: translateY(1.5rem);
+		transition: opacity 0.5s, transform 0.6s var(--ease-out);
+	}
+
+	.menu-toggle__input:checked ~ .site-nav li {
+		opacity: 1;
+		transform: none;
+	}
+
+	.menu-toggle__input:checked ~ .site-nav li:nth-child(1) { transition-delay: 0.25s; }
+	.menu-toggle__input:checked ~ .site-nav li:nth-child(2) { transition-delay: 0.32s; }
+	.menu-toggle__input:checked ~ .site-nav li:nth-child(3) { transition-delay: 0.39s; }
+	.menu-toggle__input:checked ~ .site-nav li:nth-child(4) { transition-delay: 0.46s; }
+	.menu-toggle__input:checked ~ .site-nav li:nth-child(5) { transition-delay: 0.53s; }
+}
+
+/* ==========================================================================
+   Conteúdo e rodapé
+   ========================================================================== */
+
+.site-main {
+	padding-block: calc(var(--section) + 3rem) var(--section);
+}
+
+.site-footer {
+	padding-block: 5rem 2rem;
+	background: var(--c-night);
+	color: var(--c-paper);
+}
+
+.site-footer__top {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	gap: 3rem;
+	padding-bottom: 4rem;
+	border-bottom: 1px solid rgb(242 237 228 / 0.15);
+}
+
+.site-footer__statement {
+	max-width: 22ch;
+	font-family: var(--f-display);
+	font-size: var(--fs-xl);
+	font-weight: 300;
+	line-height: 1.05;
+}
+
+.site-footer__menu {
+	display: grid;
+	gap: 0.5rem;
+	padding: 0;
+	list-style: none;
+}
+
+.site-footer__bottom {
+	display: flex;
+	justify-content: space-between;
+	gap: 1rem;
+	padding-top: 2rem;
+	font-size: var(--fs-xs);
+	color: rgb(242 237 228 / 0.6);
+}
