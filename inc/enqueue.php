@@ -12,12 +12,12 @@ function lume_fonts_url() {
 function lume_enqueue_assets() {
 	wp_enqueue_style( 'lume-fonts', lume_fonts_url(), array(), null );
 
-	$files = array( 'base', 'layout', 'components', 'home', 'animations' );
+	$files = array( 'base', 'layout', 'components', 'home', 'pages', 'animations' );
 	$deps  = array( 'lume-fonts' );
 
 	foreach ( $files as $file ) {
 		$path = LUME_DIR . "/assets/css/{$file}.css";
-		if ( ! file_exists( $path ) ) {
+		if ( ! file_exists( $path ) || ( 'home' === $file && ! is_front_page() ) ) {
 			continue;
 		}
 		$handle = "lume-{$file}";
