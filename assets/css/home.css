@@ -209,25 +209,6 @@
 }
 
 /* ==========================================================================
-   Projetos
-   ========================================================================== */
-
-.projects__grid {
-	display: grid;
-	grid-template-columns: repeat(2, minmax(0, 1fr));
-	gap: clamp(2rem, 1rem + 4vw, 5rem) clamp(1.5rem, 1rem + 2vw, 3rem);
-}
-
-.projects__grid > :nth-child(even) {
-	margin-top: clamp(0rem, -2rem + 12vw, 10rem);
-}
-
-.projects__more {
-	margin-top: 4rem;
-	text-align: center;
-}
-
-/* ==========================================================================
    Processo
    ========================================================================== */
 
