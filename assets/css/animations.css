@@ -138,12 +138,16 @@
 	}
 
 	/* Parallax das formas do hero */
-	@keyframes drift-slow { to { translate: 0 -12vh; } }
+	@keyframes sink { to { translate: 0 18%; } }
 	@keyframes drift-fast { to { translate: 0 -28vh; } }
+
+	.hero__art {
+		overflow: hidden;
+	}
 
 	.arches,
 	.hero__image {
-		animation: drift-slow linear both;
+		animation: sink linear both;
 		animation-timeline: scroll(root);
 		animation-range: 0 100vh;
 	}
@@ -172,7 +176,7 @@
 	.stats__value::before {
 		animation: count linear both;
 		animation-timeline: view();
-		animation-range: entry 10% cover 45%;
+		animation-range: entry 0% entry 100%;
 	}
 
 	/* Elementos que sobem ao entrar na tela */
@@ -228,6 +232,7 @@
 			position: sticky;
 			top: 0;
 			display: grid;
+			grid-template-columns: minmax(0, 1fr);
 			align-content: center;
 			height: 100vh;
 			overflow: hidden;
