@@ -12,7 +12,7 @@ function lume_fonts_url() {
 function lume_enqueue_assets() {
 	wp_enqueue_style( 'lume-fonts', lume_fonts_url(), array(), null );
 
-	$files = array( 'base', 'layout', 'components', 'home', 'pages', 'animations' );
+	$files = array( 'base', 'layout', 'components', 'home', 'pages', 'responsive', 'animations' );
 	$deps  = array( 'lume-fonts' );
 
 	foreach ( $files as $file ) {
