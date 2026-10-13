@@ -121,18 +121,33 @@
 
 @supports (animation-timeline: view()) {
 
-	/* Header ganha fundo depois dos primeiros pixels de rolagem */
-	@keyframes header-solid {
-		to {
-			padding-block: 0.9rem;
-			background-color: rgb(242 237 228 / 0.85);
-			backdrop-filter: blur(12px);
-			box-shadow: 0 1px 0 var(--c-line);
-		}
+	/* Header ganha fundo depois dos primeiros pixels de rolagem.
+	   O fundo fica num pseudo-elemento: backdrop-filter no próprio
+	   header prenderia o menu mobile (position: fixed) dentro dele. */
+	@keyframes header-compact {
+		to { padding-block: 0.9rem; }
+	}
+
+	@keyframes header-bg {
+		to { opacity: 1; }
 	}
 
 	.site-header {
-		animation: header-solid linear both;
+		animation: header-compact linear both;
+		animation-timeline: scroll(root);
+		animation-range: 0 160px;
+	}
+
+	.site-header::before {
+		content: "";
+		position: absolute;
+		inset: 0;
+		z-index: -1;
+		background-color: rgb(242 237 228 / 0.85);
+		backdrop-filter: blur(12px);
+		box-shadow: 0 1px 0 var(--c-line);
+		opacity: 0;
+		animation: header-bg linear both;
 		animation-timeline: scroll(root);
 		animation-range: 0 160px;
 	}
@@ -189,7 +204,7 @@
 	.section-head {
 		animation: reveal linear both;
 		animation-timeline: view();
-		animation-range: entry 0% entry 70%;
+		animation-range: entry 0% entry 35%;
 	}
 
 	/* Foto do card: cortina + zoom */
@@ -206,7 +221,7 @@
 	.project-card__media {
 		animation: curtain linear both;
 		animation-timeline: view();
-		animation-range: entry 0% cover 40%;
+		animation-range: entry 0% entry 55%;
 	}
 
 	.project-card__media img,

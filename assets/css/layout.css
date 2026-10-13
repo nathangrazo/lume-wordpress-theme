@@ -6,6 +6,7 @@
 	position: fixed;
 	inset: 0 0 auto;
 	z-index: 50;
+	isolation: isolate;
 	padding-block: 1.5rem;
 	transition: padding 0.4s var(--ease-out), background-color 0.4s;
 }
