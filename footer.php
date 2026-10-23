@@ -33,6 +33,8 @@
 			<span>&copy; <?php echo esc_html( wp_date( 'Y' ) ); ?> <?php bloginfo( 'name' ); ?></span>
 			<a href="#top" class="site-footer__top-link"><?php esc_html_e( 'Voltar ao topo', 'lume' ); ?> &uarr;</a>
 		</div>
+
+		<p class="site-footer__wordmark" aria-hidden="true"><?php bloginfo( 'name' ); ?><span>.</span></p>
 	</div>
 </footer>
 

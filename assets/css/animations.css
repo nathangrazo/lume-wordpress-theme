@@ -143,7 +143,7 @@
 		position: absolute;
 		inset: 0;
 		z-index: -1;
-		background-color: rgb(242 237 228 / 0.85);
+		background-color: rgb(242 237 228 / 0.94);
 		backdrop-filter: blur(12px);
 		box-shadow: 0 1px 0 var(--c-line);
 		opacity: 0;
