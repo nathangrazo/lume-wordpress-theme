@@ -2,7 +2,7 @@
 /**
  * Card de projeto.
  *
- * Recebe em $args: title, url, type, place, year, tone e image (HTML).
+ * Recebe em $args: id, title, url, type, place, year, tone e image (HTML).
  *
  * @package Lume
  */
@@ -10,6 +10,7 @@
 $lume_card = wp_parse_args(
 	$args,
 	array(
+		'id'    => 0,
 		'title' => '',
 		'url'   => '',
 		'type'  => '',
@@ -24,7 +25,12 @@ $lume_tag  = $lume_card['url'] ? 'a' : 'div';
 
 <article class="project-card reveal">
 	<<?php echo esc_html( $lume_tag ); ?> class="project-card__link" <?php echo $lume_card['url'] ? 'href="' . esc_url( $lume_card['url'] ) . '"' : ''; ?>>
-		<div class="project-card__media <?php echo esc_attr( $lume_card['tone'] ); ?>">
+		<div
+			class="project-card__media <?php echo esc_attr( $lume_card['tone'] ); ?>"
+			<?php if ( $lume_card['id'] ) : ?>
+				style="view-transition-name: <?php echo esc_attr( lume_transition_name( $lume_card['id'] ) ); ?>"
+			<?php endif; ?>
+		>
 			<?php echo $lume_card['image']; // phpcs:ignore WordPress.Security.EscapeOutput -- vem de wp_get_attachment_image. ?>
 		</div>
 

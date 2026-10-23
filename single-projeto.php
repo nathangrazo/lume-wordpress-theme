@@ -36,8 +36,11 @@ while ( have_posts() ) :
 			<?php endforeach; ?>
 		</dl>
 
+		<?php $lume_vt = 'view-transition-name: ' . lume_transition_name( get_the_ID() ); ?>
 		<?php if ( has_post_thumbnail() ) : ?>
-			<figure class="cover cover--full"><?php the_post_thumbnail( 'lume-wide' ); ?></figure>
+			<figure class="cover cover--full" style="<?php echo esc_attr( $lume_vt ); ?>"><?php the_post_thumbnail( 'lume-wide' ); ?></figure>
+		<?php else : ?>
+			<div class="cover cover--full cover--art <?php echo esc_attr( lume_project_tone( get_the_ID() ) ); ?>" style="<?php echo esc_attr( $lume_vt ); ?>" aria-hidden="true"></div>
 		<?php endif; ?>
 
 		<div class="entry-content">

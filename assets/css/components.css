@@ -144,7 +144,8 @@
 }
 
 /* Ilustrações em CSS para os cards de exemplo */
-.project-card__media[class*="tone-"]:not(:has(img))::before {
+.project-card__media[class*="tone-"]:not(:has(img))::before,
+.cover--art::before {
 	content: "";
 	position: absolute;
 	inset: 0;

@@ -1,0 +1,125 @@
+/* ==========================================================================
+   Transições entre páginas (View Transitions API, cross-document)
+   Funciona sem JS: o navegador tira um "print" da página antiga e anima
+   até a nova. Elementos com o mesmo view-transition-name nas duas páginas
+   se transformam um no outro (o card vira a capa do projeto).
+   ========================================================================== */
+
+@view-transition {
+	navigation: auto;
+}
+
+.site-header {
+	view-transition-name: lume-header;
+}
+
+@keyframes vt-out {
+	to { opacity: 0; transform: translateY(-2rem); }
+}
+
+@keyframes vt-in {
+	from { opacity: 0; transform: translateY(3rem); }
+}
+
+::view-transition-old(root) {
+	animation: vt-out 0.35s var(--ease-in-out) both;
+}
+
+::view-transition-new(root) {
+	animation: vt-in 0.7s var(--ease-out) 0.1s both;
+}
+
+::view-transition-group(*) {
+	animation-duration: 0.8s;
+	animation-timing-function: var(--ease-out);
+}
+
+/* O header só troca: animar entre o estado compacto e o normal
+   deixava o texto duplicado durante o crossfade */
+::view-transition-group(lume-header),
+::view-transition-new(lume-header) {
+	animation: none;
+}
+
+::view-transition-old(lume-header) {
+	display: none;
+}
+
+/* Capa ilustrada quando o projeto não tem imagem destacada */
+.cover--art {
+	position: relative;
+	aspect-ratio: 21 / 9;
+	max-height: 80vh;
+	width: 100%;
+}
+
+.cover--art::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+}
+
+/* ==========================================================================
+   Cortina de abertura (só na home)
+   ========================================================================== */
+
+@keyframes curtain-up {
+	0%, 55% { transform: none; }
+	100% { transform: translateY(-100%); }
+}
+
+@keyframes curtain-word {
+	0% { opacity: 0; letter-spacing: 0.3em; }
+	40%, 70% { opacity: 1; letter-spacing: -0.04em; }
+	100% { opacity: 0; letter-spacing: -0.04em; }
+}
+
+.home::before {
+	content: "Lume.";
+	position: fixed;
+	inset: 0;
+	z-index: 200;
+	display: grid;
+	place-items: center;
+	background: var(--c-night);
+	color: var(--c-paper);
+	font-family: var(--f-display);
+	font-size: clamp(3rem, 2rem + 6vw, 8rem);
+	font-weight: 300;
+	pointer-events: none;
+	animation:
+		curtain-up 1.7s var(--ease-in-out) forwards,
+		curtain-word 1.2s var(--ease-out) forwards;
+}
+
+/* O conteúdo da home espera a cortina subir */
+.home .hero__title .word > span { animation-delay: calc(1.35s + var(--i) * 0.09s); }
+.home .hero__eyebrow { animation-delay: 1.3s; }
+.home .hero__footer { animation-delay: 1.9s; }
+.home .arch--1 { animation-delay: 1.2s; }
+.home .arch--2 { animation-delay: 1.35s; }
+.home .arch--3 { animation-delay: 1.5s; }
+
+/* ==========================================================================
+   Granulado
+   ========================================================================== */
+
+body::after {
+	content: "";
+	position: fixed;
+	inset: 0;
+	z-index: 150;
+	pointer-events: none;
+	opacity: 0.06;
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+	@view-transition {
+		navigation: none;
+	}
+
+	.home::before {
+		display: none;
+	}
+}

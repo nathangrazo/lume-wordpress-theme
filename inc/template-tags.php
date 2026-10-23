@@ -66,3 +66,18 @@ function lume_demo_projects() {
 		array( 'Refúgio Serra Fina', 'Residencial', 'Passa Quatro, MG', '2023', 'tone-4' ),
 	);
 }
+
+/**
+ * Tom da ilustração de um projeto. Depende só do ID, então o card
+ * e a página do projeto sempre usam a mesma cor.
+ */
+function lume_project_tone( $post_id ) {
+	return 'tone-' . ( absint( $post_id ) % 4 + 1 );
+}
+
+/**
+ * Nome da view transition que liga o card à capa do projeto.
+ */
+function lume_transition_name( $post_id ) {
+	return 'lume-projeto-' . absint( $post_id );
+}

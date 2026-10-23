@@ -34,7 +34,6 @@ get_header();
 
 	<div class="container projects__grid">
 		<?php
-		$lume_index = 0;
 		while ( have_posts() ) :
 			the_post();
 			$lume_terms = get_the_terms( get_the_ID(), 'tipologia' );
@@ -43,12 +42,13 @@ get_header();
 				'template-parts/content/project-card',
 				null,
 				array(
+					'id'    => get_the_ID(),
 					'title' => get_the_title(),
 					'url'   => get_permalink(),
 					'type'  => $lume_terms && ! is_wp_error( $lume_terms ) ? $lume_terms[0]->name : '',
 					'place' => get_post_meta( get_the_ID(), 'lume_local', true ),
 					'year'  => get_post_meta( get_the_ID(), 'lume_ano', true ),
-					'tone'  => 'tone-' . ( $lume_index++ % 4 + 1 ),
+					'tone'  => lume_project_tone( get_the_ID() ),
 					'image' => get_the_post_thumbnail( null, 'lume-card' ),
 				)
 			);
