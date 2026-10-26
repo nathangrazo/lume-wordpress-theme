@@ -32,6 +32,9 @@ $lume_tag  = $lume_card['url'] ? 'a' : 'div';
 			<?php endif; ?>
 		>
 			<?php echo $lume_card['image']; // phpcs:ignore WordPress.Security.EscapeOutput -- vem de wp_get_attachment_image. ?>
+			<?php if ( $lume_card['url'] ) : ?>
+				<span class="project-card__badge" aria-hidden="true"><?php esc_html_e( 'Ver projeto', 'lume' ); ?></span>
+			<?php endif; ?>
 		</div>
 
 		<div class="project-card__meta">
