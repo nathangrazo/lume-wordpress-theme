@@ -113,7 +113,7 @@
 	.site-footer__wordmark {
 		animation: wordmark-in linear both;
 		animation-timeline: view();
-		animation-range: entry 0% entry 75%;
+		animation-range: entry 0% entry 50%;
 	}
 
 	/* Progresso de leitura em posts e projetos */
