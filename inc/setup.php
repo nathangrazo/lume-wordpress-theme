@@ -26,6 +26,10 @@ function lume_setup() {
 		)
 	);
 
+	// O editor de blocos usa a mesma tipografia do site
+	add_theme_support( 'editor-styles' );
+	add_editor_style( array( lume_fonts_url(), 'assets/dist/css/editor.css' ) );
+
 	add_image_size( 'lume-card', 900, 1125, true );
 	add_image_size( 'lume-wide', 1920, 1080, true );
 

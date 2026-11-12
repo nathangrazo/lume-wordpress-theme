@@ -1,0 +1,35 @@
+// Lume — folha de estilo principal.
+// Compilada pelo webpack em assets/dist/css/main.css (npm run build).
+
+@use "base/tokens";
+@use "base/reset";
+@use "base/typography";
+@use "base/utilities";
+@use "base/keyframes";
+
+@use "layout/header";
+@use "layout/menu";
+@use "layout/footer";
+
+@use "components/button";
+@use "components/section-head";
+@use "components/project-card";
+@use "components/projects-grid";
+
+@use "sections/hero";
+@use "sections/marquee";
+@use "sections/about";
+@use "sections/process";
+@use "sections/contact";
+
+@use "pages/page-header";
+@use "pages/entry-content";
+@use "pages/project";
+@use "pages/post-list";
+@use "pages/forms";
+@use "pages/not-found";
+
+@use "effects/transitions";
+@use "effects/intro";
+@use "effects/grain";
+@use "effects/reduced-motion";

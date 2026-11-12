@@ -1,0 +1,13 @@
+// Estilo carregado dentro do editor de blocos (add_editor_style).
+// O WordPress prefixa tudo com .editor-styles-wrapper.
+
+@use "base/tokens";
+@use "base/typography";
+@use "pages/entry-content" as content;
+
+body {
+  background: var(--c-paper);
+  color: var(--c-ink);
+  font-family: var(--f-body);
+  @include content.entry-content;
+}

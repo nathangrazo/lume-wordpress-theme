@@ -12,17 +12,10 @@ function lume_fonts_url() {
 function lume_enqueue_assets() {
 	wp_enqueue_style( 'lume-fonts', lume_fonts_url(), array(), null );
 
-	$files = array( 'base', 'layout', 'components', 'home', 'pages', 'responsive', 'animations', 'effects', 'transitions' );
-	$deps  = array( 'lume-fonts' );
-
-	foreach ( $files as $file ) {
-		$path = LUME_DIR . "/assets/css/{$file}.css";
-		if ( ! file_exists( $path ) || ( 'home' === $file && ! is_front_page() ) ) {
-			continue;
-		}
-		$handle = "lume-{$file}";
-		wp_enqueue_style( $handle, LUME_URI . "/assets/css/{$file}.css", $deps, filemtime( $path ) );
-		$deps = array( $handle );
+	// CSS compilado pelo webpack a partir de assets/scss (npm run build)
+	$css = '/assets/dist/css/main.css';
+	if ( file_exists( LUME_DIR . $css ) ) {
+		wp_enqueue_style( 'lume', LUME_URI . $css, array( 'lume-fonts' ), filemtime( LUME_DIR . $css ) );
 	}
 
 	if ( is_singular() && comments_open() && get_option( 'thread_comments' ) ) {
@@ -45,3 +38,14 @@ function lume_resource_hints( $urls, $relation ) {
 	return $urls;
 }
 add_filter( 'wp_resource_hints', 'lume_resource_hints', 10, 2 );
+
+/**
+ * Favicon do tema enquanto nenhum ícone foi definido em Personalizar.
+ */
+function lume_favicon() {
+	if ( has_site_icon() ) {
+		return;
+	}
+	printf( '<link rel="icon" type="image/svg+xml" href="%s">' . "\n", esc_url( lume_image_url( 'favicon.svg' ) ) );
+}
+add_action( 'wp_head', 'lume_favicon' );

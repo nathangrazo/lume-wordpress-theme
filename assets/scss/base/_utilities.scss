@@ -1,0 +1,29 @@
+.container {
+  width: min(100% - var(--space) * 2, var(--max));
+  margin-inline: auto;
+}
+
+.section {
+  padding-block: var(--section);
+}
+
+.screen-reader-text {
+  position: absolute !important;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(1px, 1px, 1px, 1px);
+  white-space: nowrap;
+
+  &:focus {
+    clip: auto;
+    width: auto;
+    height: auto;
+    z-index: 1000;
+    top: 1rem;
+    left: 1rem;
+    padding: 0.75rem 1rem;
+    background: var(--c-ink);
+    color: var(--c-paper);
+  }
+}

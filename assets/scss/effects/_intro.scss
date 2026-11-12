@@ -1,0 +1,55 @@
+@use "sass:map";
+@use "../abstracts" as *;
+
+// Cortina de abertura da home: o nome do estúdio aparece e sobe.
+$curtain-duration: 1.7s;
+
+// Quanto cada elemento do hero espera a cortina sair
+$hero-delays: (
+  ".hero__eyebrow": 1.3s,
+  ".hero__footer": 1.9s,
+  ".arch--1": 1.2s,
+  ".arch--2": 1.35s,
+  ".arch--3": 1.5s,
+);
+
+@keyframes curtain-up {
+  0%, 55% { transform: none; }
+  100% { transform: translateY(-100%); }
+}
+
+@keyframes curtain-word {
+  0% { opacity: 0; letter-spacing: 0.3em; }
+  40%, 70% { opacity: 1; letter-spacing: -0.04em; }
+  100% { opacity: 0; letter-spacing: -0.04em; }
+}
+
+.home {
+  &::before {
+    content: "Lume.";
+    position: fixed;
+    inset: 0;
+    z-index: 200;
+    display: grid;
+    place-items: center;
+    background: var(--c-night);
+    color: var(--c-paper);
+    font-family: var(--f-display);
+    font-size: clamp(3rem, 2rem + 6vw, 8rem);
+    font-weight: 300;
+    pointer-events: none;
+    animation:
+      curtain-up $curtain-duration var(--ease-in-out) forwards,
+      curtain-word 1.2s var(--ease-out) forwards;
+  }
+
+  .hero__title .word > span {
+    animation-delay: calc(1.35s + var(--i) * 0.09s);
+  }
+
+  @each $selector, $delay in $hero-delays {
+    #{$selector} {
+      animation-delay: $delay;
+    }
+  }
+}

@@ -1,0 +1,91 @@
+@use "../abstracts" as *;
+
+@keyframes count {
+  from { --num: 0; }
+  to { --num: var(--target); }
+}
+
+@keyframes light-up {
+  from { opacity: 0.14; }
+  to { opacity: 1; }
+}
+
+.about {
+  &__grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 3fr);
+    gap: 3rem;
+
+    @include down(tablet) {
+      grid-template-columns: 1fr;
+      gap: 2rem;
+    }
+  }
+
+  &__manifesto {
+    font-family: var(--f-display);
+    font-size: clamp(1.75rem, 1.1rem + 2.4vw, 3.25rem);
+    font-weight: 300;
+    line-height: 1.18;
+    letter-spacing: -0.02em;
+  }
+}
+
+.stats {
+  grid-column: 2;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  margin-top: 3rem;
+
+  @include down(tablet) {
+    grid-column: auto;
+  }
+
+  @include down(mobile) {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+
+  &__item {
+    display: flex;
+    flex-direction: column-reverse;
+    gap: 0.5rem;
+    padding-top: 1.25rem;
+    border-top: 1px solid var(--c-line);
+  }
+
+  &__label {
+    font-size: var(--fs-sm);
+    color: var(--c-ink-soft);
+  }
+
+  // O número é um counter() alimentado por --num, uma @property
+  // do tipo <integer>. Animando --num, o número "conta".
+  &__value {
+    margin: 0;
+    font-family: var(--f-display);
+    font-size: clamp(3rem, 2rem + 4vw, 6rem);
+    font-weight: 300;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+
+    &::before {
+      content: counter(stat);
+      counter-reset: stat var(--num);
+      animation: count 2.2s var(--ease-out) 0.3s both;
+    }
+  }
+}
+
+@include scroll-driven {
+  // Cada palavra do manifesto acende conforme passa pela tela
+  .about__manifesto span {
+    @include timeline(light-up, view(), cover 25% cover 42%);
+  }
+
+  // Contadores só começam quando aparecem
+  .stats__value::before {
+    @include timeline(count, view(), entry 0% entry 100%);
+  }
+}

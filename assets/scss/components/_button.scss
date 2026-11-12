@@ -1,0 +1,49 @@
+@use "../abstracts" as *;
+
+.button {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.85rem;
+  padding: 0.95rem 1.6rem;
+  border: 1px solid var(--c-ink);
+  border-radius: 999px;
+  background: transparent;
+  font-size: var(--fs-sm);
+  font-weight: 500;
+  cursor: pointer;
+  transition: color 0.5s var(--ease-out);
+
+  // Fundo que sobe no hover
+  &::before {
+    @include overlay(-1);
+    background: var(--c-ink);
+    border-radius: inherit;
+    transform: translateY(101%);
+    transition: transform 0.5s var(--ease-out);
+  }
+
+  &:hover,
+  &:focus-visible {
+    color: var(--c-paper);
+
+    &::before {
+      transform: none;
+    }
+  }
+
+  &__arrow {
+    display: inline-block;
+    transition: transform 0.5s var(--ease-out);
+  }
+
+  &:hover &__arrow {
+    transform: translateY(3px);
+  }
+}
+
+.link-arrow {
+  @include underline-link;
+}

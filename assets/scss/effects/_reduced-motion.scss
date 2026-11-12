@@ -1,0 +1,29 @@
+// Quem pede menos movimento recebe o conteúdo parado e completo.
+@media (prefers-reduced-motion: reduce) {
+  @view-transition {
+    navigation: none;
+  }
+
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+
+  .home::before {
+    display: none;
+  }
+
+  .stats__value::before {
+    counter-reset: stat var(--target);
+  }
+
+  .process {
+    height: auto !important;
+  }
+}

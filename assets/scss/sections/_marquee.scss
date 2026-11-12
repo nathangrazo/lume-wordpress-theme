@@ -1,0 +1,68 @@
+@use "../abstracts" as *;
+
+@keyframes marquee {
+  to { transform: translateX(-100%); }
+}
+
+.marquees {
+  border-block: 1px solid var(--c-line);
+  background: var(--c-paper-2);
+}
+
+.marquee {
+  display: flex;
+  overflow: hidden;
+  padding-block: 1.1rem;
+  user-select: none;
+
+  &__track {
+    @include reset-list;
+    display: flex;
+    flex-shrink: 0;
+    gap: 3rem;
+    padding: 0 1.5rem;
+    font-family: var(--f-display);
+    font-size: var(--fs-xl);
+    font-weight: 300;
+    font-style: italic;
+    white-space: nowrap;
+    animation: marquee 28s linear infinite;
+
+    li {
+      display: flex;
+      align-items: center;
+      gap: 3rem;
+
+      &::after {
+        content: "✳";
+        font-style: normal;
+        font-size: 0.5em;
+        color: var(--c-accent);
+      }
+    }
+  }
+
+  &:hover &__track {
+    animation-play-state: paused;
+  }
+
+  // Segunda faixa: texto vazado, no sentido contrário e mais devagar
+  &--outline {
+    border-top: 1px solid var(--c-line);
+
+    .marquee__track {
+      font-style: normal;
+      font-weight: 400;
+      color: transparent;
+      -webkit-text-stroke: 1px var(--c-ink);
+      animation-direction: reverse;
+      animation-duration: 36s;
+
+      li::after {
+        content: "○";
+        -webkit-text-stroke: 0;
+        color: var(--c-ink);
+      }
+    }
+  }
+}

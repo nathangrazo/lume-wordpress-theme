@@ -1,0 +1,12 @@
+// Granulado por cima da página. A textura fica em assets/images/noise.svg;
+// o caminho é relativo ao CSS compilado em assets/dist/css/.
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 150;
+  pointer-events: none;
+  opacity: 0.06;
+  background-image: url("../../images/noise.svg");
+  background-size: 160px;
+}

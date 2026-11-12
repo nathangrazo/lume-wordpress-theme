@@ -1,0 +1,76 @@
+@use "sass:map";
+@use "variables" as *;
+
+// Até o breakpoint (mobile first ao contrário: o layout base é o desktop)
+@mixin down($name) {
+  @media (max-width: map.get($breakpoints, $name)) {
+    @content;
+  }
+}
+
+// A partir do breakpoint
+@mixin up($name) {
+  @media (min-width: map.get($breakpoints, $name) + 1px) {
+    @content;
+  }
+}
+
+// Só aplica em navegadores com scroll-driven animations.
+// Os outros ficam com o conteúdo estático, sem quebrar nada.
+@mixin scroll-driven {
+  @supports (animation-timeline: view()) {
+    @content;
+  }
+}
+
+// Atalho pra animação ligada à rolagem
+@mixin timeline($name, $timeline: view(), $range: normal) {
+  animation: $name linear both;
+  animation-timeline: $timeline;
+  animation-range: $range;
+}
+
+// Título que entra palavra por palavra. O PHP envolve cada palavra
+// em .word > span e define --i (índice) inline.
+@mixin word-reveal($base-delay: 0.25s, $step: 0.09s, $duration: 1.2s) {
+  .word {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: top;
+    padding-bottom: 0.1em;
+    margin-bottom: -0.1em;
+  }
+
+  .word > span {
+    display: inline-block;
+    transform-origin: left bottom;
+    animation: rise $duration var(--ease-out) both;
+    animation-delay: calc(#{$base-delay} + var(--i) * #{$step});
+  }
+}
+
+// Sublinhado que cresce da esquerda no hover
+@mixin underline-link {
+  background: linear-gradient(currentColor, currentColor) no-repeat 100% 100% / 0 1px;
+  transition: background-size 0.45s var(--ease-out);
+
+  &:hover,
+  &:focus-visible {
+    background-position: 0 100%;
+    background-size: 100% 1px;
+  }
+}
+
+@mixin reset-list {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+// Pseudo-elemento cobrindo o pai
+@mixin overlay($z: auto) {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: $z;
+}

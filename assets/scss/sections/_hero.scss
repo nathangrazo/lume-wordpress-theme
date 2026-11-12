@@ -1,0 +1,241 @@
+@use "../abstracts" as *;
+
+// Os três arcos: posição, tamanho e atraso da entrada
+$arches: (
+  1: (left: 4%, width: 34%, height: 72%, delay: 0.2s),
+  2: (left: 30%, width: 40%, height: 92%, delay: 0.35s),
+  3: (right: 0, width: 30%, height: 58%, delay: 0.5s),
+);
+
+@keyframes sun-rise {
+  from { opacity: 0; transform: translateY(140%) scale(0.6); }
+  to { opacity: 1; transform: none; }
+}
+
+@keyframes scroll-line {
+  from { transform: translateY(-100%); }
+  to { transform: translateY(100%); }
+}
+
+@keyframes light-sweep {
+  0%, 20% { transform: translateX(-120%) skewX(-18deg); }
+  60%, 100% { transform: translateX(220%) skewX(-18deg); }
+}
+
+@keyframes window-glow {
+  0%, 100% { opacity: 0.25; }
+  50% { opacity: 0.9; }
+}
+
+.hero {
+  position: relative;
+  display: grid;
+  align-items: end;
+  min-height: 100svh;
+  padding-block: 8rem 4rem;
+  overflow: hidden;
+
+  @include down(mobile) {
+    padding-block: 6.5rem 3rem;
+  }
+
+  &__content {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    grid-template-areas:
+      "eyebrow art"
+      "title   art"
+      "footer  footer";
+    align-items: end;
+    column-gap: 2rem;
+
+    @include down(mobile) {
+      grid-template-columns: minmax(0, 1fr);
+      grid-template-areas: "eyebrow" "title" "art" "footer";
+    }
+  }
+
+  &__eyebrow {
+    grid-area: eyebrow;
+    margin-bottom: 2rem;
+    animation: fade-up 0.9s var(--ease-out) 0.1s both;
+
+    @include down(mobile) {
+      margin-bottom: 1.25rem;
+    }
+  }
+
+  &__title {
+    grid-area: title;
+    max-width: 11ch;
+    font-size: var(--fs-hero);
+    font-weight: 300;
+    line-height: 0.92;
+    letter-spacing: -0.045em;
+    @include word-reveal;
+  }
+
+  &__footer {
+    grid-area: footer;
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: end;
+    justify-content: space-between;
+    gap: 2rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--c-ink);
+    animation: fade-up 1s var(--ease-out) 0.9s both;
+
+    @include down(mobile) {
+      flex-direction: column;
+      align-items: start;
+    }
+  }
+
+  &__text {
+    max-width: 42ch;
+    color: var(--c-ink-soft);
+  }
+
+  &__art {
+    grid-area: art;
+    position: relative;
+    height: min(68vh, 680px);
+    margin-bottom: -1px;
+
+    @include down(mobile) {
+      height: 46vh;
+      margin-top: 2rem;
+    }
+  }
+
+  &__image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    animation: fade-up 1.4s var(--ease-out) 0.2s both;
+  }
+
+  // Linha animada indicando que dá pra rolar
+  &__scroll {
+    position: absolute;
+    left: 50%;
+    bottom: 1.5rem;
+    z-index: 2;
+    width: 1px;
+    height: 48px;
+    overflow: hidden;
+    background: var(--c-line);
+
+    &::after {
+      @include overlay;
+      background: var(--c-ink);
+      animation: scroll-line 2.2s var(--ease-in-out) infinite;
+    }
+
+    @include down(mobile) {
+      display: none;
+    }
+  }
+}
+
+// --- Ilustração dos arcos ---------------------------------------------------
+
+.arches {
+  position: absolute;
+  inset: 0;
+}
+
+.arch {
+  position: absolute;
+  bottom: 0;
+  border-radius: 999px 999px 0 0;
+  transform-origin: bottom;
+  animation: grow 1.4s var(--ease-in-out) both;
+
+  @each $n, $props in $arches {
+    &--#{$n} {
+      @each $prop, $value in $props {
+        @if $prop == delay {
+          animation-delay: $value;
+        } @else {
+          #{$prop}: $value;
+        }
+      }
+    }
+  }
+
+  &--1 {
+    background: linear-gradient(180deg, #d98f69, var(--c-accent));
+  }
+
+  // Arco central com moldura e um feixe de luz passando
+  &--2 {
+    overflow: hidden;
+    background: linear-gradient(180deg, #d9cfbf, #c4b59d);
+    box-shadow: inset 0 0 0 clamp(14px, 2vw, 28px) var(--c-paper-2);
+
+    &::after {
+      @include overlay;
+      width: 45%;
+      background: linear-gradient(90deg, transparent, rgb(255 250 240 / 0.55), transparent);
+      animation: light-sweep 6s var(--ease-in-out) 3s infinite;
+    }
+  }
+
+  // Arco escuro com uma janela que acende devagar
+  &--3 {
+    background: var(--c-ink);
+
+    &::after {
+      content: "";
+      position: absolute;
+      left: 50%;
+      top: 30%;
+      width: 22%;
+      aspect-ratio: 1 / 1.6;
+      translate: -50% 0;
+      border-radius: 999px 999px 0 0;
+      background: var(--c-accent-soft);
+      animation: window-glow 5s ease-in-out 2.5s infinite;
+    }
+  }
+}
+
+.sun {
+  position: absolute;
+  top: 6%;
+  right: 18%;
+  width: clamp(60px, 8vw, 120px);
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, #f6d7b8, var(--c-accent-soft));
+  animation: sun-rise 1.6s var(--ease-out) 1s both;
+}
+
+// --- Parallax no scroll -----------------------------------------------------
+
+@include scroll-driven {
+  @keyframes sink { to { translate: 0 18%; } }
+  @keyframes drift-up { to { translate: 0 -28vh; } }
+
+  .hero__art {
+    overflow: hidden;
+  }
+
+  // Os arcos afundam na linha do chão e o sol sobe
+  .arches,
+  .hero__image {
+    @include timeline(sink, scroll(root), 0 100vh);
+  }
+
+  .sun {
+    animation:
+      sun-rise 1.6s var(--ease-out) 1s both,
+      drift-up linear both;
+    animation-timeline: auto, scroll(root);
+    animation-range: normal, 0 100vh;
+  }
+}

@@ -1,0 +1,22 @@
+// Breakpoints usados pelos mixins de media query
+$breakpoints: (
+  mobile: 760px,
+  tablet: 960px,
+);
+
+// Largura máxima do conteúdo
+$max-width: 1360px;
+
+// Curvas de animação (também expostas como custom properties em base/_tokens)
+$ease-out: cubic-bezier(0.22, 1, 0.36, 1);
+$ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+
+// Paleta base. As cores de uso no tema são custom properties (base/_tokens),
+// estes valores existem pra poder usar funções do Sass como color.adjust.
+$paper: #f2ede4;
+$paper-2: #e8e1d5;
+$ink: #1a1714;
+$ink-soft: #5b544b;
+$accent: #b8532e;
+$accent-soft: #e9b89c;
+$night: #14120f;

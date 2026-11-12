@@ -1,0 +1,75 @@
+@use "../abstracts" as *;
+
+.site-header {
+  position: fixed;
+  inset: 0 0 auto;
+  z-index: 50;
+  isolation: isolate;
+  padding-block: 1.5rem;
+  view-transition-name: lume-header;
+  transition: padding 0.4s var(--ease-out);
+
+  @include down(mobile) {
+    padding-block: 1rem;
+  }
+
+  &__inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+  }
+}
+
+.site-brand__name {
+  font-family: var(--f-display);
+  font-size: 1.6rem;
+  font-weight: 400;
+  letter-spacing: -0.03em;
+
+  span {
+    color: var(--c-accent);
+  }
+}
+
+.custom-logo {
+  width: auto;
+  max-height: 40px;
+}
+
+@include scroll-driven {
+  @keyframes header-compact {
+    to { padding-block: 0.9rem; }
+  }
+
+  @keyframes header-bg {
+    to { opacity: 1; }
+  }
+
+  .site-header {
+    @include timeline(header-compact, scroll(root), 0 160px);
+
+    // O fundo fica num pseudo-elemento: backdrop-filter no próprio header
+    // criaria um containing block e prenderia o menu mobile (fixed) dentro dele.
+    &::before {
+      @include overlay(-1);
+      background-color: rgb(242 237 228 / 0.94);
+      backdrop-filter: blur(12px);
+      box-shadow: 0 1px 0 var(--c-line);
+      opacity: 0;
+      @include timeline(header-bg, scroll(root), 0 160px);
+    }
+  }
+
+  // Progresso de leitura nas páginas internas
+  .single .site-header::after,
+  .page .site-header::after {
+    content: "";
+    position: absolute;
+    inset: auto 0 0;
+    height: 2px;
+    background: var(--c-accent);
+    transform-origin: left;
+    @include timeline(grow-x, scroll(root));
+  }
+}

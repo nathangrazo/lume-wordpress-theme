@@ -1,0 +1,40 @@
+// Transições entre páginas com a View Transitions API (cross-document).
+// O navegador tira um "print" da página antiga e anima até a nova.
+// Elementos com o mesmo view-transition-name nas duas páginas se
+// transformam um no outro: o card do projeto vira a capa.
+
+@view-transition {
+  navigation: auto;
+}
+
+@keyframes vt-out {
+  to { opacity: 0; transform: translateY(-2rem); }
+}
+
+@keyframes vt-in {
+  from { opacity: 0; transform: translateY(3rem); }
+}
+
+::view-transition-old(root) {
+  animation: vt-out 0.35s var(--ease-in-out) both;
+}
+
+::view-transition-new(root) {
+  animation: vt-in 0.7s var(--ease-out) 0.1s both;
+}
+
+::view-transition-group(*) {
+  animation-duration: 0.8s;
+  animation-timing-function: var(--ease-out);
+}
+
+// O header só troca: animar entre a versão compacta e a normal
+// deixava o texto duplicado no meio do crossfade.
+::view-transition-group(lume-header),
+::view-transition-new(lume-header) {
+  animation: none;
+}
+
+::view-transition-old(lume-header) {
+  display: none;
+}

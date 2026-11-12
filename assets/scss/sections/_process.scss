@@ -1,0 +1,113 @@
+@use "../abstracts" as *;
+
+$step-border: rgb(242 237 228 / 0.15);
+
+.process {
+  padding-block: var(--section);
+  background: var(--c-night);
+  color: var(--c-paper);
+
+  .eyebrow {
+    color: rgb(242 237 228 / 0.6);
+  }
+
+  &__head {
+    display: grid;
+    gap: 1.25rem;
+    margin-bottom: 4rem;
+
+    h2 {
+      max-width: 18ch;
+    }
+  }
+
+  // Sem suporte a scroll-driven fica um grid normal
+  &__track {
+    @include reset-list;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 1.5rem;
+    width: min(100% - var(--space) * 2, var(--max));
+    margin-inline: auto;
+  }
+
+  &__step {
+    display: grid;
+    align-content: start;
+    gap: 1rem;
+    min-height: 320px;
+    padding: 2rem;
+    border: 1px solid $step-border;
+    border-radius: var(--radius);
+    transition: background-color 0.5s var(--ease-out), border-color 0.5s;
+
+    &:hover {
+      background: rgb(242 237 228 / 0.04);
+      border-color: rgb(242 237 228 / 0.3);
+    }
+
+    p {
+      color: rgb(242 237 228 / 0.7);
+    }
+  }
+
+  &__number {
+    font-family: var(--f-display);
+    font-size: 4.5rem;
+    font-weight: 300;
+    line-height: 1;
+    color: var(--c-accent);
+  }
+}
+
+// A seção fica alta e presa (sticky) enquanto a trilha anda na horizontal.
+// O progresso vem da view timeline da própria seção (--process).
+@include scroll-driven {
+  @keyframes slide {
+    to { transform: translateX(calc(-100% + 100vw - var(--space))); }
+  }
+
+  @include up(mobile) {
+    .process {
+      height: 320vh;
+      padding-block: 0;
+      view-timeline-name: --process;
+    }
+
+    .process__sticky {
+      position: sticky;
+      top: 0;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      align-content: center;
+      height: 100vh;
+      overflow: hidden;
+
+      // Barra de progresso da seção
+      &::after {
+        content: "";
+        position: absolute;
+        left: max(var(--space), (100vw - var(--max)) / 2);
+        right: max(var(--space), (100vw - var(--max)) / 2);
+        bottom: 3rem;
+        height: 2px;
+        background: var(--c-accent);
+        transform-origin: left;
+        @include timeline(grow-x, --process, contain 0% contain 100%);
+      }
+    }
+
+    .process__track {
+      display: flex;
+      width: max-content;
+      margin-inline: 0;
+      padding-left: max(var(--space), (100vw - var(--max)) / 2);
+      @include timeline(slide, --process, contain 0% contain 100%);
+    }
+
+    .process__step {
+      width: clamp(300px, 34vw, 460px);
+      min-height: 380px;
+    }
+  }
+}

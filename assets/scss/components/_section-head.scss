@@ -1,0 +1,28 @@
+@use "../abstracts" as *;
+
+.section-head {
+  display: grid;
+  gap: 1.25rem;
+  margin-bottom: clamp(3rem, 2rem + 4vw, 6rem);
+
+  &__title {
+    max-width: 16ch;
+  }
+}
+
+// Palavra em destaque nos títulos grandes
+.section-head__title,
+.hero__title,
+.contact__title {
+  em {
+    color: var(--c-accent);
+    font-weight: 300;
+  }
+}
+
+@include scroll-driven {
+  .reveal,
+  .section-head {
+    @include timeline(reveal, view(), entry 0% entry 35%);
+  }
+}
