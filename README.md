@@ -1,6 +1,6 @@
 # Lume
 
-Tema WordPress clássico para um estúdio de arquitetura fictício. O desafio que eu me dei foi fazer toda a parte visual e as animações **só com HTML e CSS**: sem jQuery, sem JavaScript próprio e sem etapa de build.
+Tema WordPress clássico para um estúdio de arquitetura fictício. O desafio que eu me dei foi fazer toda a parte visual e as animações **só com HTML e CSS**, sem jQuery e sem nenhum JavaScript no front. Os estilos são escritos em **SCSS** e compilados com **webpack**.
 
 ![Home](docs/home.jpg)
 
@@ -16,7 +16,9 @@ Tema WordPress clássico para um estúdio de arquitetura fictício. O desafio qu
 - Home montada em seções: hero, faixa de serviços, manifesto com números, projetos, processo e contato
 - Textos da home, imagem do hero e contatos editáveis em **Aparência → Personalizar**
 - Templates para post, página, arquivo de projetos com filtro, busca, comentários e 404
-- Se ainda não houver projetos cadastrados, a home mostra cards de exemplo com ilustrações feitas em CSS
+- Projetos sem imagem destacada usam ilustrações SVG de `assets/images/projetos` (a escolha depende do ID, então o card e a capa mostram a mesma)
+- Se ainda não houver projetos cadastrados, a home mostra cards de exemplo com essas ilustrações
+- O editor de blocos carrega um `editor.css` com a mesma tipografia do site
 
 ## Animações (todas em CSS)
 
@@ -57,12 +59,54 @@ Bugs que valeram a pena registrar:
 3. Em **Configurações → Links permanentes**, clique em salvar (para registrar a URL `/projetos/`)
 4. Cadastre projetos e, se quiser, defina um menu em **Aparência → Menus**
 
-Requer WordPress 6.4+ e PHP 8.0+.
+Requer WordPress 6.4+ e PHP 8.0+. O CSS compilado já está no repositório, então não é preciso rodar o build para usar o tema.
+
+## Desenvolvimento
+
+Os estilos ficam em `assets/scss` e são compilados pelo webpack (Sass → PostCSS/autoprefixer → CSS extraído) em `assets/dist/css`.
+
+```bash
+npm install
+```
+
+```bash
+npm run dev
+```
+
+O `dev` observa os arquivos e gera source maps. Para gerar o CSS minificado:
+
+```bash
+npm run build
+```
+
+O webpack só cuida do CSS. Como a entry é um `.scss`, ele geraria um `.js` vazio; o `webpack-remove-empty-scripts` apaga esse arquivo. Os `url()` do SCSS não passam pelo webpack (`css-loader` com `url: false`), porque as imagens ficam em `assets/images` e são servidas pelo próprio WordPress.
+
+### Como o SCSS está organizado
+
+- `abstracts/`: variáveis e mixins, sem gerar CSS. Os principais mixins:
+  - `down()`/`up()`: media queries a partir de um map de breakpoints;
+  - `scroll-driven`: envolve o bloco no `@supports (animation-timeline: view())`;
+  - `timeline()`: animação ligada à rolagem em uma linha;
+  - `word-reveal`: o efeito de título palavra por palavra, usado no hero e no cabeçalho das páginas.
+- Cada componente tem o próprio responsivo e o próprio trecho scroll-driven no mesmo arquivo, em vez de um `responsive.css` separado.
+- `@each` gera os três arcos do hero a partir de um map (posição, tamanho e atraso) e os atrasos da cortina de abertura. `@for` gera os atrasos dos itens do menu mobile.
 
 ## Estrutura
 
 ```text
-├── assets/css/         # base, layout, componentes, home, páginas, responsivo e animações
+├── assets/
+│   ├── scss/           # código-fonte dos estilos
+│   │   ├── abstracts/  # variáveis e mixins
+│   │   ├── base/       # tokens, reset, tipografia, keyframes
+│   │   ├── layout/     # header, menu e rodapé
+│   │   ├── components/ # botão, card de projeto, grid
+│   │   ├── sections/   # seções da home
+│   │   ├── pages/      # páginas internas, formulários, 404
+│   │   ├── effects/    # view transitions, cortina, granulado, reduced motion
+│   │   ├── main.scss
+│   │   └── editor.scss # estilos do editor de blocos
+│   ├── dist/css/       # CSS compilado (gerado pelo webpack)
+│   └── images/         # favicon, textura e ilustrações dos projetos
 ├── inc/
 │   ├── setup.php       # theme supports e menus
 │   ├── enqueue.php     # fontes e CSS
