@@ -38,14 +38,13 @@ $lume_query = new WP_Query(
 							'type'  => $lume_terms && ! is_wp_error( $lume_terms ) ? $lume_terms[0]->name : '',
 							'place' => get_post_meta( get_the_ID(), 'lume_local', true ),
 							'year'  => get_post_meta( get_the_ID(), 'lume_ano', true ),
-							'tone'  => lume_project_tone( get_the_ID() ),
-							'image' => get_the_post_thumbnail( null, 'lume-card' ),
+							'image' => lume_project_image( get_the_ID() ),
 						)
 					);
 				endwhile;
 				wp_reset_postdata();
 			else :
-				foreach ( lume_demo_projects() as list( $lume_title, $lume_type, $lume_place, $lume_year, $lume_tone ) ) :
+				foreach ( lume_demo_projects() as $lume_i => list( $lume_title, $lume_type, $lume_place, $lume_year ) ) :
 					get_template_part(
 						'template-parts/content/project-card',
 						null,
@@ -54,7 +53,7 @@ $lume_query = new WP_Query(
 							'type'  => $lume_type,
 							'place' => $lume_place,
 							'year'  => $lume_year,
-							'tone'  => $lume_tone,
+							'image' => lume_illustration( $lume_i ),
 						)
 					);
 				endforeach;

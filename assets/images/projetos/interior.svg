@@ -1,0 +1,30 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="parede" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#ece3d3"/>
+      <stop offset="1" stop-color="#d8c8ae"/>
+    </linearGradient>
+    <radialGradient id="luz" cx=".5" cy=".5" r=".5">
+      <stop offset="0" stop-color="#fff6e6"/>
+      <stop offset="1" stop-color="#efe3cc"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="1200" fill="url(#parede)"/>
+  <!-- Piso -->
+  <rect y="860" width="1200" height="340" fill="#c6b192"/>
+  <!-- Janela redonda -->
+  <circle cx="400" cy="460" r="210" fill="url(#luz)"/>
+  <path d="M400 250v420M190 460h420" stroke="#d8c8ae" stroke-width="12"/>
+  <!-- Pilar -->
+  <rect x="760" y="0" width="56" height="860" fill="#2b2723"/>
+  <!-- Sofá -->
+  <rect x="180" y="760" width="520" height="150" rx="40" fill="#a98c69"/>
+  <rect x="210" y="700" width="460" height="110" rx="40" fill="#b99d7a"/>
+  <!-- Luminária de piso -->
+  <path d="M960 860V420" stroke="#2b2723" stroke-width="8"/>
+  <path d="M880 430a80 60 0 0 1 160 0z" fill="#2b2723"/>
+  <ellipse cx="960" cy="440" rx="60" ry="12" fill="#f6d9a8" opacity=".9"/>
+  <!-- Vaso -->
+  <path d="M1040 860l-20-110h80l-20 110z" fill="#b8532e"/>
+  <path d="M1060 750c-10-70 10-130 60-170-20 60-30 110-40 170z" fill="#6f7a52"/>
+</svg>

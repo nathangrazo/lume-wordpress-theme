@@ -40,7 +40,9 @@ while ( have_posts() ) :
 		<?php if ( has_post_thumbnail() ) : ?>
 			<figure class="cover cover--full" style="<?php echo esc_attr( $lume_vt ); ?>"><?php the_post_thumbnail( 'lume-wide' ); ?></figure>
 		<?php else : ?>
-			<div class="cover cover--full cover--art <?php echo esc_attr( lume_project_tone( get_the_ID() ) ); ?>" style="<?php echo esc_attr( $lume_vt ); ?>" aria-hidden="true"></div>
+			<figure class="cover cover--full cover--art" style="<?php echo esc_attr( $lume_vt ); ?>" aria-hidden="true">
+				<?php echo lume_illustration( get_the_ID() ); // phpcs:ignore WordPress.Security.EscapeOutput -- HTML montado com esc_url/esc_attr. ?>
+			</figure>
 		<?php endif; ?>
 
 		<div class="entry-content">

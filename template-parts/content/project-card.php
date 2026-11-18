@@ -2,7 +2,7 @@
 /**
  * Card de projeto.
  *
- * Recebe em $args: id, title, url, type, place, year, tone e image (HTML).
+ * Recebe em $args: id, title, url, type, place, year e image (HTML).
  *
  * @package Lume
  */
@@ -16,7 +16,6 @@ $lume_card = wp_parse_args(
 		'type'  => '',
 		'place' => '',
 		'year'  => '',
-		'tone'  => 'tone-1',
 		'image' => '',
 	)
 );
@@ -26,12 +25,12 @@ $lume_tag  = $lume_card['url'] ? 'a' : 'div';
 <article class="project-card reveal">
 	<<?php echo esc_html( $lume_tag ); ?> class="project-card__link" <?php echo $lume_card['url'] ? 'href="' . esc_url( $lume_card['url'] ) . '"' : ''; ?>>
 		<div
-			class="project-card__media <?php echo esc_attr( $lume_card['tone'] ); ?>"
+			class="project-card__media"
 			<?php if ( $lume_card['id'] ) : ?>
 				style="view-transition-name: <?php echo esc_attr( lume_transition_name( $lume_card['id'] ) ); ?>"
 			<?php endif; ?>
 		>
-			<?php echo $lume_card['image']; // phpcs:ignore WordPress.Security.EscapeOutput -- vem de wp_get_attachment_image. ?>
+			<?php echo $lume_card['image']; // phpcs:ignore WordPress.Security.EscapeOutput -- vem de get_the_post_thumbnail ou lume_illustration. ?>
 			<?php if ( $lume_card['url'] ) : ?>
 				<span class="project-card__badge" aria-hidden="true"><?php esc_html_e( 'Ver projeto', 'lume' ); ?></span>
 			<?php endif; ?>

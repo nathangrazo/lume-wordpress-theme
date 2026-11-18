@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="ceu" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#e3a07c"/>
+      <stop offset="1" stop-color="#b8532e"/>
+    </linearGradient>
+    <linearGradient id="arco" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#9a4324"/>
+      <stop offset="1" stop-color="#7a321a"/>
+    </linearGradient>
+    <radialGradient id="sol" cx=".4" cy=".4" r=".7">
+      <stop offset="0" stop-color="#fbe6cf"/>
+      <stop offset="1" stop-color="#f0c19f"/>
+    </radialGradient>
+  </defs>
+  <rect width="1200" height="1200" fill="url(#ceu)"/>
+  <circle cx="830" cy="360" r="120" fill="url(#sol)"/>
+  <!-- Casa em arco -->
+  <path d="M250 1200V690a350 350 0 0 1 700 0v510z" fill="url(#arco)"/>
+  <!-- Porta -->
+  <path d="M500 1200V900a100 100 0 0 1 200 0v300z" fill="#5b2412"/>
+  <!-- Janelas redondas -->
+  <circle cx="420" cy="760" r="46" fill="#f3c7a4" opacity=".85"/>
+  <circle cx="780" cy="760" r="46" fill="#f3c7a4" opacity=".55"/>
+  <!-- Planta -->
+  <path d="M1040 1200c-10-90 10-170 60-230-20 80-25 150-20 230z" fill="#6f7a52"/>
+  <path d="M1060 1200c-40-70-110-110-180-120 70 40 120 80 150 120z" fill="#59643f"/>
+  <rect y="1150" width="1200" height="50" fill="#6e2c17"/>
+</svg>

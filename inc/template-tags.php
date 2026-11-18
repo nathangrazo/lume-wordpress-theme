@@ -60,19 +60,44 @@ function lume_split_words( $html ) {
  */
 function lume_demo_projects() {
 	return array(
-		array( 'Casa Jabuticaba', 'Residencial', 'Cotia, SP', '2025', 'tone-1' ),
-		array( 'Loja Alvenaria', 'Comercial', 'Pinheiros, SP', '2024', 'tone-2' ),
-		array( 'Apartamento Copan', 'Interiores', 'Centro, SP', '2024', 'tone-3' ),
-		array( 'Refúgio Serra Fina', 'Residencial', 'Passa Quatro, MG', '2023', 'tone-4' ),
+		array( 'Casa Jabuticaba', 'Residencial', 'Cotia, SP', '2025' ),
+		array( 'Loja Alvenaria', 'Comercial', 'Pinheiros, SP', '2024' ),
+		array( 'Apartamento Copan', 'Interiores', 'Centro, SP', '2024' ),
+		array( 'Refúgio Serra Fina', 'Residencial', 'Passa Quatro, MG', '2023' ),
 	);
 }
 
 /**
- * Tom da ilustração de um projeto. Depende só do ID, então o card
- * e a página do projeto sempre usam a mesma cor.
+ * URL de um arquivo dentro de assets/images.
  */
-function lume_project_tone( $post_id ) {
-	return 'tone-' . ( absint( $post_id ) % 4 + 1 );
+function lume_image_url( $file ) {
+	return LUME_URI . '/assets/images/' . ltrim( $file, '/' );
+}
+
+/**
+ * Ilustração usada quando o projeto não tem imagem destacada.
+ * A escolha depende só do número (ID ou posição), então o card e a
+ * capa do mesmo projeto mostram sempre a mesma imagem.
+ */
+function lume_illustration( $key, $class = '' ) {
+	$files = array( 'arco', 'fachada', 'interior', 'serra' );
+	$file  = $files[ absint( $key ) % count( $files ) ];
+
+	return sprintf(
+		'<img src="%s" alt="" class="%s" width="1200" height="1200" loading="lazy" decoding="async">',
+		esc_url( lume_image_url( "projetos/{$file}.svg" ) ),
+		esc_attr( $class )
+	);
+}
+
+/**
+ * Imagem destacada do projeto ou a ilustração de fallback.
+ */
+function lume_project_image( $post_id, $size = 'lume-card' ) {
+	if ( has_post_thumbnail( $post_id ) ) {
+		return get_the_post_thumbnail( $post_id, $size );
+	}
+	return lume_illustration( $post_id );
 }
 
 /**

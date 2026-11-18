@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1200" preserveAspectRatio="xMidYMid slice">
+  <defs>
+    <linearGradient id="ceu" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#8ea6ad"/>
+      <stop offset="1" stop-color="#ddc8a6"/>
+    </linearGradient>
+  </defs>
+  <rect width="1200" height="1200" fill="url(#ceu)"/>
+  <circle cx="330" cy="330" r="95" fill="#f2c48d"/>
+  <!-- Montanhas -->
+  <path d="M-50 1200L420 560l300 330 160-170 370 480z" fill="#4c6066"/>
+  <path d="M-50 1200L250 820l260 230 250-300 490 450z" fill="#2f3e43"/>
+  <!-- Casinha com janela acesa -->
+  <path d="M640 900l90-70 90 70v110H640z" fill="#1f2a2e"/>
+  <rect x="705" y="915" width="50" height="45" fill="#f2c48d"/>
+  <path d="M-50 1200L180 1020l320 120 300-170 450 230z" fill="#1f2a2e"/>
+</svg>

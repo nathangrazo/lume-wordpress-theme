@@ -48,8 +48,7 @@ get_header();
 					'type'  => $lume_terms && ! is_wp_error( $lume_terms ) ? $lume_terms[0]->name : '',
 					'place' => get_post_meta( get_the_ID(), 'lume_local', true ),
 					'year'  => get_post_meta( get_the_ID(), 'lume_ano', true ),
-					'tone'  => lume_project_tone( get_the_ID() ),
-					'image' => get_the_post_thumbnail( null, 'lume-card' ),
+					'image' => lume_project_image( get_the_ID() ),
 				)
 			);
 		endwhile;
