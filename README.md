@@ -53,7 +53,7 @@ Bugs que valeram a pena registrar:
 
 1. Clone dentro de `wp-content/themes`:
    ```bash
-   git clone https://github.com/nathangrazo/rep1.git wp-content/themes/lume
+   git clone https://github.com/nathangrazo/lume-wordpress-theme.git wp-content/themes/lume
    ```
 2. Ative o tema em **Aparência → Temas**
 3. Em **Configurações → Links permanentes**, clique em salvar (para registrar a URL `/projetos/`)
