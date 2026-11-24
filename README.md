@@ -1,69 +1,69 @@
 # Lume
 
-Tema WordPress clássico para um estúdio de arquitetura fictício. O desafio que eu me dei foi fazer toda a parte visual e as animações **só com HTML e CSS**, sem jQuery e sem nenhum JavaScript no front. Os estilos são escritos em **SCSS** e compilados com **webpack**.
+Classic WordPress theme for a fictional architecture studio. The challenge I set for myself was building all visuals and animations **purely with HTML and CSS**, with no jQuery and zero front-end JavaScript. Styles are written in **SCSS** and compiled with **webpack**.
 
 ![Home](docs/home.jpg)
 
-| Faixas de serviços e manifesto | Processo (scroll horizontal) |
+| Services marquees and manifesto | Process (horizontal scroll) |
 | :---: | :---: |
-| ![Estúdio](docs/estudio.jpg) | ![Processo](docs/processo.jpg) |
-| **Projetos (hover)** | **Mobile** |
-| ![Projetos](docs/projetos.jpg) | ![Mobile](docs/mobile.jpg) |
+| ![Studio](docs/estudio.jpg) | ![Process](docs/processo.jpg) |
+| **Projects (hover)** | **Mobile** |
+| ![Projects](docs/projetos.jpg) | ![Mobile](docs/mobile.jpg) |
 
-## O que tem
+## What's included
 
-- Post type **Projetos**, com taxonomia de tipologia e ficha técnica (local, ano, área e status)
-- Home montada em seções: hero, faixa de serviços, manifesto com números, projetos, processo e contato
-- Textos da home, imagem do hero e contatos editáveis em **Aparência → Personalizar**
-- Templates para post, página, arquivo de projetos com filtro, busca, comentários e 404
-- Projetos sem imagem destacada usam ilustrações SVG de `assets/images/projetos` (a escolha depende do ID, então o card e a capa mostram a mesma)
-- Se ainda não houver projetos cadastrados, a home mostra cards de exemplo com essas ilustrações
-- O editor de blocos carrega um `editor.css` com a mesma tipografia do site
+- Custom post type **Projects**, with typology taxonomy and project specs (location, year, area, and status)
+- Sectioned home page: hero, services marquee, manifesto with counters, projects, process, and contact
+- Home copy, hero image, and contact details editable under **Appearance → Customize**
+- Templates for single post, page, filterable projects archive, search, comments, and 404
+- Projects without a featured image fall back to SVG illustrations in `assets/images/projetos` (chosen deterministically by ID so the card and cover always match)
+- When no projects are published yet, the home page displays sample cards using those illustrations
+- Block editor loads an `editor.css` matching the site's typography
 
-## Animações (todas em CSS)
+## Animations (all in CSS)
 
-| Efeito | Como foi feito |
+| Effect | How it was built |
 | :--- | :--- |
-| Transição entre páginas: a imagem do card vira a capa do projeto | View Transitions entre documentos (`@view-transition { navigation: auto }`) e o mesmo `view-transition-name` no card e na capa |
-| Cortina de abertura com o nome do estúdio | `::before` no `body` da home com dois keyframes |
-| Título do hero entrando palavra por palavra | `@keyframes` + `animation-delay` calculado com uma custom property (`--i`) que o PHP coloca em cada palavra |
-| Header que ganha fundo ao rolar | `animation-timeline: scroll(root)` |
-| Arcos do hero afundando / sol subindo | parallax com `scroll()` |
-| Manifesto que "acende" conforme a leitura | `animation-timeline: view()` em cada palavra |
-| Contadores (12, 140, 9) | `@property --num` do tipo `<integer>` animado e exibido com `counter()` |
-| Fotos dos projetos abrindo como cortina | `clip-path` + `view()` |
-| Seção de processo andando na horizontal | seção alta com `position: sticky` e `view-timeline-name` controlando um `translateX` |
-| Feixe de luz no arco e janela acendendo | pseudo-elementos com keyframes em loop |
-| Duas faixas de serviços em sentidos opostos (uma vazada) | keyframes + `-webkit-text-stroke` |
-| Selo "Ver projeto" no hover dos cards | `scale` e `rotate` com transição |
-| Barra de progresso de leitura e da seção de processo | `scaleX` ligado a `scroll(root)` / à view timeline da seção |
-| Wordmark gigante no rodapé | `view()` animando posição e `letter-spacing` |
-| Menu mobile | checkbox + `clip-path: circle()` |
-| Selo giratório no contato | keyframes em loop |
+| Page transition: project card image morphs into the project cover | Cross-document View Transitions (`@view-transition { navigation: auto }`) with matching `view-transition-name` on card and cover |
+| Opening curtain with the studio name | `::before` on the home `body` with two keyframes |
+| Hero title entering word by word | `@keyframes` + `animation-delay` computed from a custom property (`--i`) injected by PHP on each word |
+| Header gaining a background on scroll | `animation-timeline: scroll(root)` |
+| Hero arches sinking / sun rising | parallax with `scroll()` |
+| Manifesto lighting up as you read | `animation-timeline: view()` on each word |
+| Counters (12, 140, 9) | `@property --num` of type `<integer>` animated and rendered with `counter()` |
+| Project photos revealing like a curtain | `clip-path` + `view()` |
+| Process section scrolling horizontally | tall section with `position: sticky` and `view-timeline-name` driving `translateX` |
+| Light beam on the arch and glowing window | pseudo-elements with looping keyframes |
+| Two services marquees moving in opposite directions (one outlined) | keyframes + `-webkit-text-stroke` |
+| "View project" badge on card hover | `scale` and `rotate` transition |
+| Reading progress bar and process section bar | `scaleX` bound to `scroll(root)` / the section's view timeline |
+| Giant footer wordmark | `view()` animating position and `letter-spacing` |
+| Mobile menu | checkbox + `clip-path: circle()` |
+| Rotating badge in the contact section | looping keyframes |
 
-Navegadores sem suporte a scroll-driven animations (`@supports (animation-timeline: view())`) recebem o conteúdo estático, e quem usa `prefers-reduced-motion` não vê animação nenhuma.
+Browsers without scroll-driven animation support (`@supports (animation-timeline: view())`) receive static content, and users with `prefers-reduced-motion` see no animations at all.
 
-Bugs que valeram a pena registrar:
+Bugs worth noting:
 
-- O `backdrop-filter` no header fazia o overlay do menu mobile (`position: fixed`) ficar do tamanho do header, porque `backdrop-filter` cria um containing block. A solução foi passar o fundo para um `::before`.
-- O header também tem `view-transition-name`. Animar entre a versão compacta e a normal deixava o texto duplicado no meio da transição, então ele só troca, sem animar.
-- O wordmark do rodapé "sangra" para fora da página, então nunca entrava 100% na tela e a animação parava no meio. O range passou a terminar na metade da entrada.
+- `backdrop-filter` on the header constrained the mobile menu overlay (`position: fixed`) to the header's height because `backdrop-filter` establishes a containing block. Moving the background to a `::before` pseudo-element solved it.
+- The header also has a `view-transition-name`. Morphing between the compact and regular versions caused duplicated text mid-transition, so it swaps directly without animating.
+- The footer wordmark bleeds past the page edge, so it never reached 100% visibility and the animation stalled halfway. Ending the animation range at the midpoint of entry fixed it.
 
-## Instalação
+## Installation
 
-1. Clone dentro de `wp-content/themes`:
+1. Clone into `wp-content/themes`:
    ```bash
    git clone https://github.com/nathangrazo/lume-wordpress-theme.git wp-content/themes/lume
    ```
-2. Ative o tema em **Aparência → Temas**
-3. Em **Configurações → Links permanentes**, clique em salvar (para registrar a URL `/projetos/`)
-4. Cadastre projetos e, se quiser, defina um menu em **Aparência → Menus**
+2. Activate the theme under **Appearance → Themes**
+3. Under **Settings → Permalinks**, click Save (to flush rewrite rules for `/projetos/`)
+4. Add projects and optionally assign a menu under **Appearance → Menus**
 
-Requer WordPress 6.4+ e PHP 8.0+. O CSS compilado já está no repositório, então não é preciso rodar o build para usar o tema.
+Requires WordPress 6.4+ and PHP 8.0+. Compiled CSS is already committed to the repository, so you do not need to run a build just to use the theme.
 
-## Desenvolvimento
+## Development
 
-Os estilos ficam em `assets/scss` e são compilados pelo webpack (Sass → PostCSS/autoprefixer → CSS extraído) em `assets/dist/css`.
+Styles live in `assets/scss` and are compiled by webpack (Sass → PostCSS/autoprefixer → extracted CSS) into `assets/dist/css`.
 
 ```bash
 npm install
@@ -73,52 +73,52 @@ npm install
 npm run dev
 ```
 
-O `dev` observa os arquivos e gera source maps. Para gerar o CSS minificado:
+`dev` watches files and emits source maps. To generate minified CSS:
 
 ```bash
 npm run build
 ```
 
-O webpack só cuida do CSS. Como a entry é um `.scss`, ele geraria um `.js` vazio; o `webpack-remove-empty-scripts` apaga esse arquivo. Os `url()` do SCSS não passam pelo webpack (`css-loader` com `url: false`), porque as imagens ficam em `assets/images` e são servidas pelo próprio WordPress.
+Webpack handles CSS only. Since the entry point is an `.scss` file, webpack would emit an empty `.js` bundle; `webpack-remove-empty-scripts` removes it. `url()` references in SCSS bypass webpack (`css-loader` with `url: false`) because images live in `assets/images` and are served directly by WordPress.
 
-### Como o SCSS está organizado
+### How SCSS is organized
 
-- `abstracts/`: variáveis e mixins, sem gerar CSS. Os principais mixins:
-  - `down()`/`up()`: media queries a partir de um map de breakpoints;
-  - `scroll-driven`: envolve o bloco no `@supports (animation-timeline: view())`;
-  - `timeline()`: animação ligada à rolagem em uma linha;
-  - `word-reveal`: o efeito de título palavra por palavra, usado no hero e no cabeçalho das páginas.
-- Cada componente tem o próprio responsivo e o próprio trecho scroll-driven no mesmo arquivo, em vez de um `responsive.css` separado.
-- `@each` gera os três arcos do hero a partir de um map (posição, tamanho e atraso) e os atrasos da cortina de abertura. `@for` gera os atrasos dos itens do menu mobile.
+- `abstracts/`: variables and mixins, outputting no CSS on their own. Main mixins:
+  - `down()`/`up()`: media queries from a breakpoint map;
+  - `scroll-driven`: wraps a block in `@supports (animation-timeline: view())`;
+  - `timeline()`: one-line scroll-linked animation helper;
+  - `word-reveal`: word-by-word heading reveal used in the hero and page headers.
+- Each component keeps its own responsive rules and scroll-driven rules in the same file rather than a separate `responsive.css`.
+- `@each` generates the three hero arches from a map (position, size, and delay) and the opening curtain delays. `@for` generates delays for the mobile menu items.
 
-## Estrutura
+## Structure
 
 ```text
 ├── assets/
-│   ├── scss/           # código-fonte dos estilos
-│   │   ├── abstracts/  # variáveis e mixins
-│   │   ├── base/       # tokens, reset, tipografia, keyframes
-│   │   ├── layout/     # header, menu e rodapé
-│   │   ├── components/ # botão, card de projeto, grid
-│   │   ├── sections/   # seções da home
-│   │   ├── pages/      # páginas internas, formulários, 404
-│   │   ├── effects/    # view transitions, cortina, granulado, reduced motion
+│   ├── scss/           # style source files
+│   │   ├── abstracts/  # variables and mixins
+│   │   ├── base/       # tokens, reset, typography, keyframes
+│   │   ├── layout/     # header, menu, and footer
+│   │   ├── components/ # button, project card, grid
+│   │   ├── sections/   # home sections
+│   │   ├── pages/      # inner pages, forms, 404
+│   │   ├── effects/    # view transitions, curtain, grain, reduced motion
 │   │   ├── main.scss
-│   │   └── editor.scss # estilos do editor de blocos
-│   ├── dist/css/       # CSS compilado (gerado pelo webpack)
-│   └── images/         # favicon, textura e ilustrações dos projetos
+│   │   └── editor.scss # block editor styles
+│   ├── dist/css/       # compiled CSS (generated by webpack)
+│   └── images/         # favicon, texture, and project illustrations
 ├── inc/
-│   ├── setup.php       # theme supports e menus
-│   ├── enqueue.php     # fontes e CSS
-│   ├── post-types.php  # projetos, tipologia e ficha técnica
-│   ├── customizer.php  # opções da home
+│   ├── setup.php       # theme supports and menus
+│   ├── enqueue.php     # fonts and CSS
+│   ├── post-types.php  # projects, typology, and specs
+│   ├── customizer.php  # home options
 │   └── template-tags.php
 ├── template-parts/
-│   ├── home/           # uma parte por seção da home
-│   └── content/        # card de projeto e cabeçalho de página
-└── *.php               # templates da hierarquia do WordPress
+│   ├── home/           # one template part per home section
+│   └── content/        # project card and page header
+└── *.php               # WordPress hierarchy templates
 ```
 
-## Licença
+## License
 
-GPL-2.0-or-later, como o próprio WordPress.
+GPL-2.0-or-later, just like WordPress itself.
